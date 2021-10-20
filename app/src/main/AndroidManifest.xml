@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
+            android:name=".ArrayListActivity"
+            android:exported="true" />
+        <activity
             android:name=".CheckBoxActivity"
             android:exported="true" />
         <activity
@@ -28,7 +31,7 @@
             android:name=".WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".ArrayListActivity"
+            android:name=".ProfileActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
