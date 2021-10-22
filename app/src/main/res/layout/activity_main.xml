@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:hint="email"
+        android:hint="gmail"
         android:padding="15dp"
         />
 
