@@ -19,7 +19,7 @@
         android:layout_height="120dp"
         android:id="@+id/textViewDesc"
         android:textSize="24sp"
-        android:text="description"/>
+        android:text="Add a task"/>
       <Button
           android:layout_width="100dp"
           android:layout_height="wrap_content"
