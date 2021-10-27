@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,14 +8,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnLongClickListener , DialogInterface.OnClickListener{
+    private static final String TAG = "FIREBASE" ;
     private EditText editTextEmail,editTextPassword;
     private Button buttonLogin,buttonSignUP;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         //sets the required button to respond to long click,otherwise it won't
         buttonLogin.setOnLongClickListener(this);
         buttonSignUP=findViewById(R.id.buttonSignUP);
-
+        //Returns a reference to the instance of the project firebase
+        mAuth = FirebaseAuth.getInstance();
         SharedPreferences sp=getSharedPreferences("settings",MODE_PRIVATE);
         String email=sp.getString("email","");
         String password=sp.getString("password","");
@@ -55,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
             editor.commit();
 
             intent.putExtra("name", editTextEmail.getText().toString());
-            startActivity(intent);
+
+            login("name",editTextPassword.getText().toString());
         }
     }
 
@@ -70,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
         editTextPassword.setText("");
         return true;
     }
+
     public void onBackPressed()
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
@@ -91,6 +104,30 @@ public class MainActivity extends AppCompatActivity implements View.OnLongClickL
      {
          dialog.cancel();
      }
-    }
 
+    }
+public void login(String email,String password)
+{
+    mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithEmail:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                      Intent i =new Intent(MainActivity.this,SetTimeActivity.class);
+                      startActivity(i);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.getException());
+                        Toast.makeText(MainActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    // ...
+                }
+            });
+}
 }
