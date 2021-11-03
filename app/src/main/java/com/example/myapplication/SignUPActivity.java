@@ -28,6 +28,7 @@ public class SignUPActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_upactivity);
         editTextfullname=findViewById(R.id.editTextfullname);
         editTextUsername=findViewById(R.id.editTextUsername);
+        editTextGmail=findViewById(R.id.editTextGmail);
         editTextAge=findViewById(R.id.editTextAge);
         editTextPassword=findViewById(R.id.editTextPassword);
         buttonSubmit=findViewById(R.id.buttonSubmit);
@@ -35,7 +36,7 @@ public class SignUPActivity extends AppCompatActivity {
     }
 
     public void Submit(View view) {
- signup(editTextUsername.getText().toString(),editTextPassword.getText().toString());
+        signup(editTextGmail.getText().toString(),editTextPassword.getText().toString());
 
     }
 
